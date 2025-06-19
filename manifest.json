@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "chadedRead",
+    "version": "1.0",
+    "description": "Listen and interact with selected text using voice and local AI.",
+    "permissions": [
+      "scripting",
+      "activeTab"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "action": {
+      "default_icon": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["sidebar.html", "icon.png"],
+        "matches": ["<all_urls>"]
+      }
+    ]
+  }
+  
