@@ -6,16 +6,16 @@ let sidebarId = "chaded-panel";
 // 🔊 Speech synthesis controls
 let currentUtterance = null;
 
-function speak(text) {
-  if (currentUtterance) {
-    speechSynthesis.cancel(); // Stop any previous
+function speak(text, rate = 1.0) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    utterance.rate = rate;
+    utterance.pitch = 1;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utterance);
   }
-  currentUtterance = new SpeechSynthesisUtterance(text);
-  currentUtterance.lang = 'en-US';
-  currentUtterance.rate = 1;
-  currentUtterance.pitch = 1;
-  speechSynthesis.speak(currentUtterance);
-}
+  
+
 
 function pauseSpeech() {
   if (speechSynthesis.speaking && !speechSynthesis.paused) {
@@ -70,8 +70,10 @@ window.addEventListener("message", (event) => {
     }
   
     if (action === "readText" && payload) {
-      speak(payload);
-    }
+        const rate = event.data.rate || 1.0;
+        speak(payload, rate);
+      }
+      
   });
   
   

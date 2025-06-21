@@ -7,6 +7,17 @@ const answerBox = document.getElementById("answer-box");
 // 🧠 Send ready handshake to content.js
 window.parent.postMessage({ sidebarReady: true }, "*");
 
+let speechRate = 1.0;
+
+const rateSlider = document.getElementById("rate-slider");
+const rateLabel = document.getElementById("rate-value");
+
+rateSlider.addEventListener("input", () => {
+  speechRate = parseFloat(rateSlider.value);
+  rateLabel.innerText = speechRate.toFixed(1);
+});
+
+
 // 🎤 Utility to speak a message
 function speak(text) {
   const utterance = new SpeechSynthesisUtterance(text);
@@ -47,9 +58,14 @@ askBtn.addEventListener("click", handleAsk);
 
 document.getElementById("read-btn").addEventListener("click", () => {
     if (contextText) {
-      window.parent.postMessage({ action: "readText", payload: contextText }, "*");
+      window.parent.postMessage({
+        action: "readText",
+        payload: contextText,
+        rate: speechRate
+      }, "*");
     }
   });
+  
   
 // 🔁 Sidebar control buttons
 document.getElementById("pause-btn").addEventListener("click", () => {
